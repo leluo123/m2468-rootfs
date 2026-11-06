@@ -62,13 +62,19 @@ ABL → boot_a/boot_b 里的 Mu-m2468.img（UEFI）
 
 内核启动时会打印 `rootfs FOUND on /dev/sdaXX`，找不到就停在 initramfs。
 
-## 为什么不直接放整盘镜像
+## 现成的镜像
 
-这台机器的 rootfs 分区是 449 GB（虽然只用了 5 GB 左右），整盘 dump 没有意义。
-而且里面混着 WiFi 密码、SSH host key、`/etc/shadow`、machine-id 这些东西，
-发出去之前要做的就是一件件剔出来，不如直接给包清单加配置来得干净。
+不想自己装的话，[Releases](https://github.com/leluo123/m2468-rootfs/releases) 里有打好的
+`m2468-rootfs-postmarketOS-20261106.tar.zst`（1.87 GB，解开 4.90 GB）。
 
-如果你确实需要现成的盘镜像，开 issue 说一声。
+已经清理过：machine-id 删除、root 锁定、`user` 密码重置为 `147147`、WiFi 配置和 SSH key 全部剔除。
+
+用法见 Release 说明。**注意解压要带 `-p` 保留权限**，不然 sudo 会坏。
+
+## 为什么不放整盘镜像
+
+这台机器的 rootfs 分区是 449 GB（只用了 5 GB 左右），整盘 dump 没意义。
+上面那个 Release 是**文件系统层面的 tar 包**，解到你自己的根分区就行，跟分区多大无关。
 
 ## 致谢
 
